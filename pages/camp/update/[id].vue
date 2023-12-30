@@ -224,30 +224,30 @@ function submit() {
     lastPossibleDate: lastPossibleDate.value,
     durationInDays: durationInDays.value,
     groupLevel: groupLevel.value,
-    minParticipantsInGroup: ParticipantsInGroup.value[0],
-    maxParticipantsInGroup: ParticipantsInGroup.value[1],
-    maxParticipantsInCamp: MaxParticipantsInCamp.value,
-    minLeadersInGroup: LeadersInGroup.value[0],
-    maxLeadersInGroup: LeadersInGroup.value[1],
-    maxLeadersInCamp: MaxLeadersInCamp.value,
-    leaderBasisKids: LeaderBasisKids.value,
-    leaderBasisTeens: LeaderBasisTeens.value,
+    MinParticipantsInGroup: ParticipantsInGroup.value[0],
+    MaxParticipantsInGroup: ParticipantsInGroup.value[1],
+    MaxParticipantsInCamp: MaxParticipantsInCamp.value,
+    MinLeadersInGroup: LeadersInGroup.value[0],
+    MaxLeadersInGroup: LeadersInGroup.value[1],
+    MaxLeadersInCamp: MaxLeadersInCamp.value,
+    LeaderBasisKids: LeaderBasisKids.value,
+    LeaderBasisTeens: LeaderBasisTeens.value,
     additionalQualifications: additionalQualifications.value,
     organised: organised.value,
     additionalInfo: additionalInfo.value,
   };
 
+  data.groupCanton = data.groupCanton.toUpperCase().replace(/\s+/g, "_");
+  data.campType = data.campType.toUpperCase();
+  data.groupLevel = data.groupLevel.map((level) => level.toUpperCase());
+  data.organised = data.organised.map((org) => org.toUpperCase());
+
   axios
     .post("http://192.168.1.122:8080/camp", data)
     .then((response) => {
-      async function navigateToCamp() {
-        setTimeout(async () => {
-          await navigateTo(`/camp/${response.id}`);
-        }, 2000);
-      }
-
-      // Call the async function
-      navigateToCamp();
+      // Handle the response
+      const campId = response.data.id;
+      return navigateTo(`/camp/${campId}`);
     })
     .catch((error) => {
       // Handle the error
