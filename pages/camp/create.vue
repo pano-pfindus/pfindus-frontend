@@ -161,6 +161,10 @@
               color="#8C3C4F"
               class="mt-4"
             ></v-slider>
+            <v-checkbox
+              v-model="aufbauExisting"
+              label="Aufbau vorhanden?"
+            ></v-checkbox>
             <v-text-field
               v-model="additionalQualifications"
               label="Zusatzausbildungen"
@@ -213,6 +217,7 @@ const LeaderBasisTeens = ref();
 const additionalQualifications = ref("");
 const organised = ref();
 const additionalInfo = ref("");
+const aufbauExisting = ref(false);
 
 function submit() {
   const data = {
@@ -235,6 +240,7 @@ function submit() {
     additionalQualifications: additionalQualifications.value,
     organised: organised.value,
     additionalInfo: additionalInfo.value,
+    aufbauExisting: aufbauExisting.value,
   };
 
   axios
@@ -243,7 +249,7 @@ function submit() {
       async function navigateToCamp() {
         setTimeout(async () => {
           await navigateTo(`/camp/${response.id}`);
-        }, 2000);
+        }, 3000);
       }
 
       // Call the async function

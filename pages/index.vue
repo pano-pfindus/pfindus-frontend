@@ -22,7 +22,7 @@
     <h1 class="text-3xl text-title font-semibold mb-4">Lagerausschreibungen</h1>
     <hr class="text-primaryLight mt-2 mx-4" />
     <div v-for="camp in camps" :key="camp.id" class="m-4">
-      <a :href="`/camp/${camp.id}`">
+      <NuxtLink :to="`/camp/${camp.id}`">
         <h1 class="text-2xl text-title font-semibold">{{ camp?.groupName }}</h1>
         <span class="flex">
           <Icon name="mdi:home-outline" class="size-6" color="black" />
@@ -44,7 +44,7 @@
             {{ new Date(camp?.lastPossibleDate).toLocaleDateString() }}</span
           >
         </span>
-      </a>
+      </NuxtLink>
       <hr class="text-primaryLight mt-2" />
     </div>
   </div>

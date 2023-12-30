@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ["@nuxtjs/tailwindcss", "@invictus.codes/nuxt-vuetify", "nuxt-icon"],
   vuetify: {
     /* vuetify options */
@@ -21,12 +21,5 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
     configPath: "~/tailwind.config.js",
-  },
-  app: {
-    pageTransition: { name: "page", mode: "out-in" },
-    head: {
-      charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1",
-    },
   },
 });

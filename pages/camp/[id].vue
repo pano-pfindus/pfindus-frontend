@@ -1,6 +1,6 @@
 <template>
   <div class="m-8">
-    <NuxtLink class="text-sm cursor-pointer" to="/"> &lt; Zurück </NuxtLink>
+    <NuxtLink class="text-sm cursor-pointer" href="/"> &lt; Zurück </NuxtLink>
     <h1 class="text-3xl text-title mb-6">
       Erlebnissausschreibung der
       <span class="font-bold">{{ camp?.groupName || "Ladet..." }}</span>
@@ -132,18 +132,13 @@
 </template>
 
 <script lang="ts" setup>
-import axios from "axios";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-let camp = ref();
 
-try {
-  const response = await axios.get(
-    `http://192.168.1.122:8080/camp/${route.params.id}`
-  );
-  camp.value = response.data;
-} catch (error) {
-  console.error(error);
-}
+const { data, pending, error, refresh } = await useAsyncData("camp", () =>
+  $fetch(`http://192.168.1.122:8080/camp/${route.params.id}`)
+);
+
+const camp: any = ref(data.value);
 </script>

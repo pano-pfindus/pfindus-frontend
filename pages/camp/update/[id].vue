@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center mt-2">
     <div class="mt-4 w-3/4 mb-4">
-      <h1 class="text-title my-4 text-3xl font-bold">Lager erstellen</h1>
+      <h1 class="text-title my-4 text-3xl font-bold">Lager bearbeiten</h1>
       <v-form @submit.prevent="submit">
         <v-stepper :items="['Abteilung', 'Rahmen', 'Ressourcen']">
           <template v-slot:item.1>
@@ -184,7 +184,7 @@
               hide-details
             ></v-text-field>
             <v-btn type="submit" block class="mt-2" color="success"
-              >Beginne das Abenteuer!</v-btn
+              >Abenteuer aktualisieren!</v-btn
             >
           </template>
         </v-stepper>
@@ -195,27 +195,38 @@
 
 <script setup>
 import axios from "axios";
+import { useRoute } from "vue-router";
 
-const groupName = ref("");
-const groupPlace = ref("");
-const groupCanton = ref();
-const campType = ref();
-const earliestPossibleDate = ref();
-const lastPossibleDate = ref();
-const durationInDays = ref();
-const groupLevel = ref();
-const ParticipantsInGroup = ref();
-const MaxParticipantsInCamp = ref();
-const LeadersInGroup = ref();
-const MaxLeadersInCamp = ref();
-const LeaderBasisKids = ref();
-const LeaderBasisTeens = ref();
-const additionalQualifications = ref("");
-const organised = ref();
-const additionalInfo = ref("");
+const route = useRoute();
+
+const { data, pending, error, refresh } = await useAsyncData("camp", () =>
+  $fetch(`http://192.168.1.122:8080/camp/${route.params.id}`)
+);
+
+const groupName = ref(data.value.groupName);
+const groupPlace = ref(data.value.groupPlace);
+const groupCanton = ref(data.value.groupCanton);
+const campType = ref(data.value.campType);
+const earliestPossibleDate = ref(
+  new Date(data.value.earliestPossibleDate).toISOString().split("T")[0]
+);
+const lastPossibleDate = ref(
+  new Date(data.value.lastPossibleDate).toISOString().split("T")[0]
+);
+const durationInDays = ref(data.value.durationInDays);
+const groupLevel = ref(data.value.groupLevel);
+const ParticipantsInGroup = ref(data.value.ParticipantsInGroup);
+const MaxParticipantsInCamp = ref(data.value.MaxParticipantsInCamp);
+const LeadersInGroup = ref(data.value.LeadersInGroup);
+const MaxLeadersInCamp = ref(data.value.MaxLeadersInCamp);
+const LeaderBasisKids = ref(data.value.LeaderBasisKids);
+const LeaderBasisTeens = ref(data.value.LeaderBasisTeens);
+const additionalQualifications = ref(data.value.additionalQualifications);
+const organised = ref(data.value.organised);
+const additionalInfo = ref(data.value.additionalInfo);
 
 function submit() {
-  const data = {
+  const dataNew = {
     groupName: groupName.value,
     groupPlace: groupPlace.value,
     groupCanton: groupCanton.value,
@@ -224,30 +235,23 @@ function submit() {
     lastPossibleDate: lastPossibleDate.value,
     durationInDays: durationInDays.value,
     groupLevel: groupLevel.value,
-    MinParticipantsInGroup: ParticipantsInGroup.value[0],
-    MaxParticipantsInGroup: ParticipantsInGroup.value[1],
-    MaxParticipantsInCamp: MaxParticipantsInCamp.value,
-    MinLeadersInGroup: LeadersInGroup.value[0],
-    MaxLeadersInGroup: LeadersInGroup.value[1],
-    MaxLeadersInCamp: MaxLeadersInCamp.value,
-    LeaderBasisKids: LeaderBasisKids.value,
-    LeaderBasisTeens: LeaderBasisTeens.value,
+    minParticipantsInGroup: ParticipantsInGroup.value[0],
+    maxParticipantsInGroup: ParticipantsInGroup.value[1],
+    maxParticipantsInCamp: MaxParticipantsInCamp.value,
+    minLeadersInGroup: LeadersInGroup.value[0],
+    maxLeadersInGroup: LeadersInGroup.value[1],
+    maxLeadersInCamp: MaxLeadersInCamp.value,
+    leaderBasisKids: LeaderBasisKids.value,
+    leaderBasisTeens: LeaderBasisTeens.value,
     additionalQualifications: additionalQualifications.value,
     organised: organised.value,
     additionalInfo: additionalInfo.value,
   };
 
-  data.groupCanton = data.groupCanton.toUpperCase().replace(/\s+/g, "_");
-  data.campType = data.campType.toUpperCase();
-  data.groupLevel = data.groupLevel.map((level) => level.toUpperCase());
-  data.organised = data.organised.map((org) => org.toUpperCase());
-
   axios
-    .post("http://192.168.1.122:8080/camp", data)
+    .put(`http://192.168.1.122:8080/camp/${route.params.id}`, dataNew)
     .then((response) => {
-      // Handle the response
-      const campId = response.data.id;
-      return navigateTo(`/camp/${campId}`);
+      return navigateTo(`/camp/${route.params.id}`);
     })
     .catch((error) => {
       // Handle the error
