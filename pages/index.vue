@@ -20,31 +20,33 @@
   <!-- Lager -->
   <div class="m-8">
     <h1 class="text-3xl text-title font-semibold mb-4">Lagerausschreibungen</h1>
-    <div v-for="camp in camps" :key="camp.id">
-      <h1 class="text-lg text-title font-semibold">{{ camp?.groupName }}</h1>
-      <span class="flex">
-        Einzugsgebiet:
-        <span class="ml-2 self-center font-bold">{{ camp?.groupPlace }}</span>
-      </span>
-      <span class="flex">
-        Kantonalverband:
-        <span class="ml-2 self-center font-bold">{{ camp?.groupCanton }}</span>
-      </span>
-      <span class="flex">
-        Stufe(n):
-        <span class="ml-2 self-center font-bold">{{
-          camp?.groupLevel.join(", ")
-        }}</span>
-      </span>
-      <span class="flex">
-        Zeitfenster
-        <span class="ml-2 self-center font-bold">
-          {{ new Date(camp?.earliestPossibleDate).toLocaleDateString() }} -
-          {{ new Date(camp?.lastPossibleDate).toLocaleDateString() }}</span
-        >
-      </span>
+    <hr class="text-primaryLight mt-2 mx-4" />
+    <div v-for="camp in camps" :key="camp.id" class="m-4">
+      <a :href="`/camp/${camp.id}`">
+        <h1 class="text-2xl text-title font-semibold">{{ camp?.groupName }}</h1>
+        <span class="flex">
+          <Icon name="mdi:home-outline" class="size-6" color="black" />
+
+          <span class="ml-2 self-center font-bold"
+            >{{ camp?.groupCanton }}, {{ camp?.groupPlace }}</span
+          >
+        </span>
+        <span class="flex">
+          <Icon name="mdi:stairs" class="size-6" color="black" />
+          <span class="ml-2 self-center font-bold">{{
+            camp?.groupLevel.join(", ")
+          }}</span>
+        </span>
+        <span class="flex">
+          <Icon name="mdi:calendar-clock" class="size-6" color="black" />
+          <span class="ml-2 self-center font-bold">
+            {{ new Date(camp?.earliestPossibleDate).toLocaleDateString() }} -
+            {{ new Date(camp?.lastPossibleDate).toLocaleDateString() }}</span
+          >
+        </span>
+      </a>
+      <hr class="text-primaryLight mt-2" />
     </div>
-    <p>{{ camps }}</p>
   </div>
 </template>
 
@@ -53,14 +55,10 @@ import axios from "axios";
 
 let camps = ref();
 
-async function fetchData() {
-  try {
-    const response = await axios.get(`http://192.168.1.122:8080/camp`);
-    camps.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
+try {
+  const response = await axios.get(`http://192.168.1.122:8080/camp`);
+  camps.value = response.data;
+} catch (error) {
+  console.error(error);
 }
-
-fetchData();
 </script>

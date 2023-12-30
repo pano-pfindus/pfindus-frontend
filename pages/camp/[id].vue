@@ -138,16 +138,12 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 let camp = ref();
 
-async function fetchData() {
-  try {
-    const response = await axios.get(
-      `http://192.168.1.122:8080/camp/${route.params.id}`
-    );
-    camp.value = response.data;
-  } catch (error) {
-    console.error(error);
-  }
+try {
+  const response = await axios.get(
+    `http://192.168.1.122:8080/camp/${route.params.id}`
+  );
+  camp.value = response.data;
+} catch (error) {
+  console.error(error);
 }
-
-fetchData();
 </script>

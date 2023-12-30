@@ -1,4 +1,5 @@
 <template>
+  <Nuxt keep-alive :keep-alive-props="{ exclude: ['camp/find/[id].vue'] }" />
   <div>
     <header class="bg-primaryDark text-white p-2 drop-shadow-lg">
       <nav class="flex justify-between">
