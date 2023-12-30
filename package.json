@@ -10,8 +10,13 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@invictus.codes/nuxt-vuetify": "^0.3.0",
+    "@nuxtjs/tailwindcss": "^6.10.3",
     "nuxt": "^3.9.0",
     "vue": "^3.4.0",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6"
   }
 }
