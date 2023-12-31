@@ -17,36 +17,10 @@
     </div>
   </div>
 
-  <!-- Lager -->
   <div class="m-8">
     <h1 class="text-3xl text-title font-semibold mb-4">Lagerausschreibungen</h1>
-    <hr class="text-primaryLight mt-2 mx-4" />
-    <div v-for="camp in camps" :key="camp.id" class="m-4">
-      <NuxtLink :to="`/camp/${camp.id}`">
-        <h1 class="text-2xl text-title font-semibold">{{ camp?.groupName }}</h1>
-        <span class="flex">
-          <Icon name="mdi:home-outline" class="size-6" color="black" />
-
-          <span class="ml-2 self-center font-bold"
-            >{{ camp?.groupCanton }}, {{ camp?.groupPlace }}</span
-          >
-        </span>
-        <span class="flex">
-          <Icon name="mdi:stairs" class="size-6" color="black" />
-          <span class="ml-2 self-center font-bold">{{
-            camp?.groupLevel.join(", ")
-          }}</span>
-        </span>
-        <span class="flex">
-          <Icon name="mdi:calendar-clock" class="size-6" color="black" />
-          <span class="ml-2 self-center font-bold">
-            {{ new Date(camp?.earliestPossibleDate).toLocaleDateString() }} -
-            {{ new Date(camp?.lastPossibleDate).toLocaleDateString() }}</span
-          >
-        </span>
-      </NuxtLink>
-      <hr class="text-primaryLight mt-2" />
-    </div>
+    <hr class="text-primaryLight mt-2" />
+    <CampOverview v-for="camp in camps" :key="camp.id" :camp="camp" />
   </div>
 </template>
 

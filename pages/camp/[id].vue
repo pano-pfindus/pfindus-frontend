@@ -9,80 +9,43 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <span class="">
         <h2 class="text-xl text-title">Über uns</h2>
-        <span class="flex">
-          Einzugsgebiet:
-          <span class="ml-2 self-center font-bold">{{
-            camp?.groupPlace || "Ladet..."
-          }}</span>
-        </span>
-        <span class="flex">
-          Kantonalverband:
-          <span class="ml-2 self-center font-bold">{{
-            camp?.groupCanton || "Ladet..."
-          }}</span>
-        </span>
-        <span class="flex">
-          Stufe(n):
-          <span class="ml-2 self-center font-bold">{{
-            camp?.groupLevel.join(", ") || "Ladet..."
-          }}</span>
-        </span>
-        <span class="flex">
-          Aktive Mitglieder:
-          <span class="ml-2 self-center font-bold">
-            zwischen {{ camp?.minParticipantsInGroup || "Ladet..." }} -
-            {{ camp?.maxParticipantsInGroup }}</span
-          >
-        </span>
+        <CampFact name="Einzugsgebiet" :fact="camp?.groupPlace" />
+        <CampFact name="Kantonalverband" :fact="camp?.groupCanton" />
+        <CampFact name="Stufe(n)" :fact="camp?.groupLevel" />
+        <CampFact
+          name="Aktive Mitglieder"
+          :fact="camp?.minParticipantsInGroup"
+          :additional="camp?.maxParticipantsInGroup"
+        />
       </span>
 
       <span class="">
         <h2 class="text-xl text-title">Lagerinfos</h2>
-        <span>
-          Zeitfenster des Lagers:
-          <span class="ml-2 self-center font-bold"
-            >{{
-              new Date(camp?.earliestPossibleDate).toLocaleDateString() ||
-              "Ladet..."
-            }}
-            - {{ new Date(camp?.lastPossibleDate).toLocaleDateString() }}</span
-          >
-        </span>
-        <span class="flex">
-          Dauer des Lagers:
-          <span class="ml-2 self-center font-bold"
-            >{{ camp?.durationInDays || "Ladet..." }} Tage</span
-          >
-        </span>
-        <span class="flex">
-          Lagerart:
-          <span class="ml-2 self-center font-bold"
-            >{{ camp?.campType || "Ladet..." }}
-          </span>
-        </span>
-        <span class="flex">
-          Maximale Teilnehmerzahl:
-          <span class="ml-2 self-center font-bold">{{
-            camp?.maxParticipantsInCamp || "Ladet..."
-          }}</span>
-        </span>
-        <span class="flex">
-          Bereits organisiert:
-          <span class="ml-2 self-center font-bold">
-            {{ camp?.organised.join(", ") || "Ladet..." }}</span
-          >
-        </span>
+        <CampFact
+          name="Zeitfenster des Lagers"
+          :fact="new Date(camp?.earliestPossibleDate).toLocaleDateString()"
+          :additional="new Date(camp?.lastPossibleDate).toLocaleDateString()"
+        />
+        <CampFact
+          name="Dauer des Lagers"
+          :fact="camp?.durationInDays"
+          suffix="Tage"
+        />
+        <CampFact name="Lagerart" :fact="camp?.campType" />
+        <CampFact
+          name="Maximale Teilenmendenanzahl"
+          :fact="camp?.maxParticipantsInCamp"
+        />
+        <CampFact name="Bereits organisiert" :fact="camp?.organised" />
       </span>
 
       <span class="">
         <h2 class="text-xl text-title">Ressourcen</h2>
-        <span>
-          Aktive Leitende:
-          <span class="ml-2 self-center font-bold"
-            >{{ camp?.minLeadersInGroup || "Ladet..." }} -
-            {{ camp?.maxLeadersInGroup }}</span
-          >
-        </span>
+        <CampFact
+          name="Aktive Leitende"
+          :fact="camp?.minLeadersInGroup"
+          :additional="camp?.maxLeadersInGroup"
+        />
         <span class="flex">
           Maximale Anzahl Leitende im Lager:
           <span class="ml-2 self-center font-bold">{{
