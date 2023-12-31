@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  modules: ["@nuxtjs/tailwindcss", "@invictus.codes/nuxt-vuetify", "nuxt-icon"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@invictus.codes/nuxt-vuetify",
+    "nuxt-icon",
+    "@sidebase/nuxt-auth",
+  ],
   vuetify: {
     /* vuetify options */
     vuetifyOptions: {
@@ -22,4 +27,5 @@ export default defineNuxtConfig({
     cssPath: "~/assets/css/tailwind.css",
     configPath: "~/tailwind.config.js",
   },
+  auth: { provider: { type: "authjs" } },
 });
